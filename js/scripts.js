@@ -61,21 +61,16 @@ let pokemonRepository = (function () {
   }
 
   function add(pokemon) {
-    // if pokemon is an object...
-    if (typeof pokemon === 'object') {
-      const pokemonKeys = Object.keys(pokemon);
-      // and the keys match...
-      if (
-        pokemonKeys[0] === 'name' &&
-        pokemonKeys[1] === 'height' &&
-        pokemonKeys[2] === 'weight' &&
-        pokemonKeys[3] === 'type'
-      ) {
-        // push the pokemon on the list
-        pokemonList.push(pokemon);
-      } else {
-        console.log('Not a valid pokemon');
-      }
+    // if pokemon is an object and the keys match...
+    if (
+      typeof pokemon === 'object' &&
+      typeof pokemon.name === 'string' &&
+      typeof pokemon.height === 'number' &&
+      typeof pokemon.weight === 'number' &&
+      Array.isArray(pokemon.type)
+    ) {
+      // then push the pokemon on the list
+      pokemonList.push(pokemon);
     } else {
       console.log('Not a valid pokemon');
     }
