@@ -1,60 +1,6 @@
 let pokemonRepository = (function () {
-  let pokemonList = [
-    {
-      name: 'Bulbasaur',
-      height: 0.7,
-      weight: 6.9,
-      type: ['grass', 'poison'],
-    },
-    {
-      name: 'Ivysaur',
-      height: 1,
-      weight: 13,
-      type: ['grass', 'poison'],
-    },
-    {
-      name: 'Venusaur',
-      height: 2,
-      weight: 100,
-      type: ['grass', 'poison'],
-    },
-    {
-      name: 'Charmander',
-      height: 0.6,
-      weight: 8.5,
-      type: ['fire'],
-    },
-    {
-      name: 'Charmeleon',
-      height: 1.1,
-      weight: 19,
-      type: ['grass', 'poison'],
-    },
-    {
-      name: 'Charizard',
-      height: 1.7,
-      weight: 90.5,
-      type: ['grass', 'poison'],
-    },
-    {
-      name: 'Squirtle',
-      height: 0.5,
-      weight: 9,
-      type: ['water'],
-    },
-    {
-      name: 'Wartortle',
-      height: 1,
-      weight: 22.5,
-      type: ['water'],
-    },
-    {
-      name: 'Blastoise',
-      height: 1.6,
-      weight: 85.5,
-      type: ['water'],
-    },
-  ];
+  let pokemonList = [];
+  let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
   function getAll() {
     return pokemonList;
@@ -65,9 +11,7 @@ let pokemonRepository = (function () {
     if (
       typeof pokemon === 'object' &&
       typeof pokemon.name === 'string' &&
-      typeof pokemon.height === 'number' &&
-      typeof pokemon.weight === 'number' &&
-      Array.isArray(pokemon.type)
+      typeof pokemon.detailsUrl === 'string'
     ) {
       // then push the pokemon on the list
       pokemonList.push(pokemon);
@@ -91,31 +35,77 @@ let pokemonRepository = (function () {
   }
 
   function showDetails(pokemon) {
-    console.log(pokemon);
+    loadDetails(pokemon).then(() => {
+      console.log(pokemon);
+    });
   }
+
+  function loadList() {
+    showLoadMessage();
+    return fetch(apiUrl)
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        json.results.forEach((item) => {
+          let pokemon = {
+            name: item.name,
+            detailsUrl: item.url,
+          };
+          add(pokemon);
+        });
+        hideLoadingMessage();
+      })
+      .catch((err) => {
+        hideLoadingMessage();
+        console.error(err);
+      });
+  }
+
+  function loadDetails(item) {
+    showLoadMessage();
+    let url = item.detailsUrl;
+    return fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((details) => {
+        item.imageUrl = details.sprites.front_default;
+        item.height = details.height;
+        item.weight = details.weight;
+        item.types = details.types;
+        hideLoadingMessage();
+      })
+      .catch((err) => {
+        hideLoadingMessage();
+        console.error(err);
+      });
+  }
+
+  function showLoadMessage() {
+    let message = document.querySelector('.load-message');
+    message.classList.remove('hidden');
+  }
+
+  function hideLoadingMessage() {
+    let message = document.querySelector('.load-message');
+    message.classList.add('hidden');
+  }
+
   return {
     getAll,
     add,
     search,
     addListItem,
+    loadList,
+    loadDetails,
   };
 })();
 
-// create new pokemon object
-let weedle = {
-  name: 'Weedle',
-  height: 0.3,
-  weight: 3.2,
-  type: ['bug', 'poison'],
-};
-// add weedle to the repository
-pokemonRepository.add(weedle);
-
 let list = document.querySelector('ul');
-// Write pokemon list to the browser
-pokemonRepository.getAll().forEach((pokemon) => {
-  pokemonRepository.addListItem(pokemon);
-});
 
-// Search for Charmander by name and print to console
-console.log(pokemonRepository.search('Charmander'));
+pokemonRepository.loadList().then(() => {
+  pokemonRepository.getAll().forEach((pokemon) => {
+    pokemonRepository.addListItem(pokemon);
+  });
+});
