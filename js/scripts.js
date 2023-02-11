@@ -79,10 +79,25 @@ let pokemonRepository = (function () {
   function search(name) {
     return pokemonList.filter((pokemon) => pokemon.name === name);
   }
+
+  function addListItem(pokemon) {
+    let listItem = document.createElement('li');
+    let button = document.createElement('button');
+    button.innerText = pokemon.name;
+    button.classList.add('poke-button');
+    listItem.appendChild(button);
+    list.appendChild(listItem);
+    button.addEventListener('click', () => showDetails(pokemon));
+  }
+
+  function showDetails(pokemon) {
+    console.log(pokemon);
+  }
   return {
     getAll,
     add,
     search,
+    addListItem,
   };
 })();
 
@@ -96,13 +111,10 @@ let weedle = {
 // add weedle to the repository
 pokemonRepository.add(weedle);
 
+let list = document.querySelector('ul');
 // Write pokemon list to the browser
 pokemonRepository.getAll().forEach((pokemon) => {
-  document.write(`${pokemon.name} (height: ${pokemon.height} m)`);
-  // If height is greater than 1.9 m then output "Wow, that's big!"
-  pokemon.height > 1.9
-    ? document.write(` - Wow, that's big!<br /><br />`)
-    : document.write(`<br /><br />`);
+  pokemonRepository.addListItem(pokemon);
 });
 
 // Search for Charmander by name and print to console
