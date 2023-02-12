@@ -33,12 +33,59 @@ let pokemonRepository = (function () {
     button.classList.add('poke-button');
     listItem.appendChild(button);
     list.appendChild(listItem);
-    button.addEventListener('click', () => showDetails(pokemon));
+    button.addEventListener('click', () => {
+      showDetails(pokemon);
+    });
+  }
+
+  function showModal(pokemon) {
+    let modalContainer = document.querySelector('.modal-container');
+
+    modalContainer.innerHTML = '';
+
+    let modal = document.createElement('div');
+    modal.classList.add('modal');
+
+    let closeButton = document.createElement('button');
+    closeButton.classList.add('modal-close');
+    closeButton.innerText = 'Close';
+    closeButton.addEventListener('click', hideModal);
+
+    let pokemonName = document.createElement('h1');
+    pokemonName.innerHTML =
+      pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+
+    let pokemonHeight = document.createElement('p');
+    pokemonHeight.innerHTML = `Height: ${pokemon.height}m`;
+
+    let pokemonWeight = document.createElement('p');
+    pokemonWeight.innerHTML = `Weight: ${pokemon.weight}kg`;
+
+    let pokemonTypes = document.createElement('p');
+    pokemonTypes.innerHTML = `Types: ${pokemon.types[0]}`;
+
+    modal.appendChild(closeButton);
+    modal.appendChild(pokemonName);
+    modal.appendChild(pokemonHeight);
+    modal.appendChild(pokemonWeight);
+    modal.appendChild(pokemonTypes);
+    modalContainer.appendChild(modal);
+
+    modalContainer.classList.remove('hidden');
+    modalContainer.addEventListener('click', (event) => {
+      if (event.target === modalContainer) {
+        hideModal();
+      }
+    });
+  }
+
+  function hideModal() {
+    document.querySelector('.modal-container').classList.add('hidden');
   }
 
   function showDetails(pokemon) {
     loadDetails(pokemon).then(() => {
-      console.log(pokemon);
+      showModal(pokemon);
     });
   }
 
@@ -51,7 +98,7 @@ let pokemonRepository = (function () {
       .then((json) => {
         json.results.forEach((item) => {
           let pokemon = {
-            name: item.name,
+            name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
             detailsUrl: item.url,
           };
           add(pokemon);
