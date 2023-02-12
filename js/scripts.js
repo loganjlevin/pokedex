@@ -9,9 +9,11 @@ let pokemonRepository = (function () {
   function add(pokemon) {
     // if pokemon is an object and the keys match...
     if (
-      typeof pokemon === 'object' &&
-      typeof pokemon.name === 'string' &&
-      typeof pokemon.detailsUrl === 'string'
+      pokemon &&
+      pokemon.name &&
+      pokemon.detailsUrl &&
+      pokemon.name.trim().length !== 0 &&
+      pokemon.detailsUrl.trim().length !== 0
     ) {
       // then push the pokemon on the list
       pokemonList.push(pokemon);
@@ -94,11 +96,8 @@ let pokemonRepository = (function () {
 
   return {
     getAll,
-    add,
-    search,
     addListItem,
     loadList,
-    loadDetails,
   };
 })();
 
