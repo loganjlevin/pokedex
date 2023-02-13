@@ -54,6 +54,10 @@ ul {
   text-align: left;
 }
 
+.modal img {
+  float: left;
+}
+
 .modal-close {
   float: right;
   border: none;
