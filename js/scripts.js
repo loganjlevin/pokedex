@@ -40,7 +40,7 @@ let pokemonRepository = (function () {
   function search(name) {
     let filteredList = [];
     filteredList = pokemonList.filter((pokemon) => {
-      return !pokemon.name.toLowerCase().indexOf(name);
+      return !pokemon.name.toLowerCase().indexOf(name.toLowerCase());
     });
     list.empty();
     filteredList.forEach((pokemon) => addListItem(pokemon));
