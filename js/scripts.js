@@ -2,10 +2,25 @@ let pokemonRepository = (function () {
   let pokemonList = [];
   let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
+  // prevent submit on search form
+  let form = $('.form-inline');
+  form.on('submit', (event) => {
+    event.preventDefault();
+  });
+
+  // setup listener for search to filter pokemon list
+  let searchInput = $('.form-control');
+  searchInput.on('input', (event) => {
+    event.preventDefault();
+    search(event.target.value);
+  });
+
+  // returns all pokemon
   function getAll() {
     return pokemonList;
   }
 
+  // adds pokemon to the list
   function add(pokemon) {
     // if pokemon is an object and the keys match...
     if (
@@ -23,7 +38,12 @@ let pokemonRepository = (function () {
   }
 
   function search(name) {
-    return pokemonList.filter((pokemon) => pokemon.name === name);
+    let filteredList = [];
+    filteredList = pokemonList.filter((pokemon) => {
+      return !pokemon.name.toLowerCase().indexOf(name);
+    });
+    list.empty();
+    filteredList.forEach((pokemon) => addListItem(pokemon));
   }
 
   function addListItem(pokemon) {
