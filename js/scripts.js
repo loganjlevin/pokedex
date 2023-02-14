@@ -30,7 +30,7 @@ let pokemonRepository = (function () {
     let button = $('<button></button>');
     button.text(pokemon.name);
     button.addClass(
-      'btn btn-primary btn-lg list-group-item list-group-item-primary col-4 mt-3 ml-3'
+      'btn btn-primary btn-lg list-group-item list-group-item-primary col-xs-6 col-sm-4 col-md-3 col-xl-2 m-3 poke-button'
     );
     button.attr({
       type: 'button',
