@@ -21,9 +21,8 @@ let pokemonRepository = (function () {
   }
 
   function search(name) {
-    showLoadSpinner();
     let filteredList = [];
-    filteredList = pokemonList.filter((pokemon) => {
+    filteredList = pokemonDetailsArray.filter((pokemon) => {
       // if the search input is at the zero index of pokemon name
       // add it to filtered list (capitalization doesnt matter)
       return !pokemon.name.toLowerCase().indexOf(name.toLowerCase());
@@ -31,8 +30,7 @@ let pokemonRepository = (function () {
     // clear the displayed list
     list.empty();
     // add every pokemon in the filtered list
-
-    displayList(filteredList);
+    filteredList.forEach((pokemon) => addListItem(pokemon));
   }
 
   function addListItem(pokemon) {
