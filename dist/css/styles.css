@@ -1,0 +1,23 @@
+.pokemon-list {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.poke-button {
+  border-radius: 10px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.modal-body {
+  justify-items: center;
+}
+.hidden {
+  display: none;
+}
