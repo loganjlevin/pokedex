@@ -5,8 +5,7 @@
 
 .poke-button {
   border-radius: 10px !important;
-}
-
-.hidden {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
