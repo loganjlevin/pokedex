@@ -9,3 +9,15 @@
   flex-direction: column;
   align-items: center;
 }
+
+.modal-title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.modal-body {
+  justify-items: center;
+}
+.hidden {
+  display: none;
+}
