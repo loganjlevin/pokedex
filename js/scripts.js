@@ -11,7 +11,6 @@ let pokemonRepository = (function () {
   // setup listener for search to filter pokemon list
   let searchInput = $('.form-control');
   searchInput.on('input', (event) => {
-    event.preventDefault();
     search(event.target.value);
   });
 
@@ -40,9 +39,13 @@ let pokemonRepository = (function () {
   function search(name) {
     let filteredList = [];
     filteredList = pokemonList.filter((pokemon) => {
+      // if the search input is at the zero index of pokemon name
+      // add it to filtered list (capitalization doesnt matter)
       return !pokemon.name.toLowerCase().indexOf(name.toLowerCase());
     });
+    // clear the displayed list
     list.empty();
+    // add every pokemon in the filtered list
     filteredList.forEach((pokemon) => addListItem(pokemon));
   }
 
@@ -94,13 +97,11 @@ let pokemonRepository = (function () {
     modalBody.append(pokemonTypes);
   }
   function showDetails(pokemon) {
-    loadDetails(pokemon).then(() => {
-      showModal(pokemon);
-    });
+    showLoadMessage();
+    loadDetails(pokemon).then(() => showModal(pokemon));
   }
 
   function loadList() {
-    showLoadMessage();
     return $.ajax(apiUrl, { dataType: 'json' })
       .then((json) => {
         json.results.forEach((item) => {
@@ -110,10 +111,8 @@ let pokemonRepository = (function () {
           };
           add(pokemon);
         });
-        hideLoadingMessage();
       })
       .catch((err) => {
-        hideLoadingMessage();
         console.error(err);
       });
   }
@@ -127,22 +126,22 @@ let pokemonRepository = (function () {
         item.height = details.height;
         item.weight = details.weight;
         item.types = details.types;
-        hideLoadingMessage();
       })
       .catch((err) => {
-        hideLoadingMessage();
         console.error(err);
       });
   }
 
   function showLoadMessage() {
-    let message = $('.load-message');
-    message.removeClass('hidden');
-  }
+    let modalTitle = $('.modal-title');
+    let modalBody = $('.modal-body');
+    modalTitle.empty();
+    modalBody.empty();
 
-  function hideLoadingMessage() {
-    let message = $('.load-message');
-    message.addClass('hidden');
+    let message = $(
+      '<div class="spinner-border text-primary" role="status"></div>'
+    );
+    modalBody.append(message);
   }
 
   return {
