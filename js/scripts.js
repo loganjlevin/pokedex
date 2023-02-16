@@ -1,7 +1,9 @@
 let pokemonRepository = (function () {
-  let pokemonList = [];
+  const pokemonList = [],
+    apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=493',
+    list = $('.list-group');
+
   let pokemonDetailsArray = [];
-  let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=493';
 
   // prevent submit on search form
   let form = $('.form-inline');
@@ -29,7 +31,7 @@ let pokemonRepository = (function () {
     });
     // clear the displayed list
     list.empty();
-    // add every pokemon in the filtered list
+    // display every pokemon in the filtered list
     filteredList.forEach((pokemon) => addListItem(pokemon));
   }
 
@@ -67,6 +69,10 @@ let pokemonRepository = (function () {
     pokemonId.text(`#${pokemon.id}`);
 
     let pokemonImage = $('<img></img>');
+    pokemonImage.addClass('opacity0');
+    pokemonImage.on('load', () =>
+      setTimeout(() => pokemonImage.removeClass('opacity0'), 500)
+    );
     pokemonImage.attr('src', pokemon.sprites.front_default);
 
     let pokemonHeight = $('<p></p>');
@@ -96,7 +102,7 @@ let pokemonRepository = (function () {
     return $.ajax(apiUrl, { dataType: 'json' })
       .then((json) => {
         json.results.forEach((item) => {
-          // assign name, details Url and image Url to pokemon object
+          // assign name, details Url to pokemon object
           let pokemon = {
             name: item.name.charAt(0).toUpperCase() + item.name.slice(1),
             detailsUrl: item.url,
@@ -137,8 +143,6 @@ let pokemonRepository = (function () {
     loadList,
   };
 })();
-
-let list = $('.list-group');
 
 pokemonRepository.loadList().then(() => {
   pokemonRepository.displayList(pokemonRepository.getAll());

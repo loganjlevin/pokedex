@@ -21,3 +21,10 @@
 .hidden {
   display: none;
 }
+
+.modal-body img {
+  transition: opacity 1s;
+}
+.opacity0 {
+  opacity: 0;
+}
