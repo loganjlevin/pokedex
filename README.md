@@ -2,7 +2,7 @@
 
 ## Description
 
-## The Pokedex app fetches data from the [PokeAPI](https://pokeapi.co/) for the first 493 Pokemon i.e. Generations 1-4. It displays each pokemon as a list of buttons that when clicked activate a modal that shows a more detailed description of that pokemon. The user can also use the search bar to filter the list of pokemon by name.
+The Pokedex app fetches data from the [PokeAPI](https://pokeapi.co/) for the first 493 Pokemon i.e. Generations 1-4. It displays each pokemon as a list of buttons that when clicked activate a modal that shows a more detailed description of that pokemon. The user can also use the search bar to filter the list of pokemon by name.
 
 ## Screenshots
 
