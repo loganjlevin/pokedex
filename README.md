@@ -18,6 +18,6 @@ The Pokedex app fetches data from the [PokeAPI](https://pokeapi.co/) for the fir
 
 ![html](https://aux.iconspalace.com/uploads/html5-icon-256.png)
 ![css](https://aux.iconspalace.com/uploads/css-3-icon-256.png)
-![js](https://cdn.iconscout.com/icon/free/png-256/free-javascript-2038874-1720087.png)
+![js](https://logospng.org/download/javascript/logo-javascript-icon-256.png)
 ![Bootstrap](https://cdn.iconscout.com/icon/free/png-256/free-bootstrap-226077.png)
 ![jquery](https://cdn.iconscout.com/icon/free/png-256/free-jquery-7-1175152.png?f=webp)
